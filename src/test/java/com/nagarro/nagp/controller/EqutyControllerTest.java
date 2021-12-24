@@ -88,7 +88,6 @@ public class EqutyControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/equity")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(asJsonString(equity))).andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.equityId").exists());
 		;
 	}
 

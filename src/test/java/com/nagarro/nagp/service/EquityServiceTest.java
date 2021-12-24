@@ -1,6 +1,7 @@
 package com.nagarro.nagp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,23 +54,22 @@ public class EquityServiceTest {
         list.add(eqThree);
          
         when(equityRepository.findAll()).thenReturn(list);
-   
         //test
         List<Equity> empList = equityService.getAllEquities();
-         
         assertEquals(3, empList.size());
         verify(equityRepository, times(1)).findAll();
     }
     
-//    @Test
-//    public void shouldBeAbleToEquityById() throws Exception {
-//    	Equity eqOne = new Equity(1,"titan",500,10,null);
-//    	equityService.addEquity(eqOne);
-//    	// test
-//    	Equity res = equityService.getEquityById(1);
-//    	
-//    	assertEquals(eqOne, res);
-//    	verify(equityRepository, times(1)).findById(1);
-//    }
-//    
+    @Test
+    public void shouldReturnEquityById() throws Exception {
+    	Optional<Equity> eqOne = Optional.of(new Equity(1,"titan",500,10,null));
+    	Equity equity=eqOne.get();
+    	when(equityRepository.findById(1)).thenReturn(eqOne);
+    	// test
+    	Equity res = equityService.getEquityById(1);
+    	
+    	assertEquals(equity, res);
+    	assertNotNull(res);
+    }
+    
 }

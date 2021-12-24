@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TraderServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ebrokerApplication</a> &gt; <a href="index.source.html" class="el_package">com.nagarro.nagp.service.imp</a> &gt; <span class="el_source">TraderServiceImpl.java</span></div><h1>TraderServiceImpl.java</h1><pre class="source lang-java linenums">package com.nagarro.nagp.service.imp;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.nagarro.nagp.model.Equity;
+import com.nagarro.nagp.model.TraderProfile;
+import com.nagarro.nagp.repository.TraderRepository;
+import com.nagarro.nagp.service.EquityService;
+import com.nagarro.nagp.service.TraderService;
+import com.nagarro.nagp.utility.TradeExchangeTimeUtil;
+
+@Service
+<span class="fc" id="L17">public class TraderServiceImpl implements TraderService {</span>
+
+	@Autowired
+	EquityService equityService;
+
+	@Autowired
+	TraderRepository traderRepository;
+
+	@Override
+	public void addFunds(long traderId, int fundAmount) {
+<span class="nc" id="L27">		traderRepository.findById(traderId).ifPresent((trader) -&gt; {</span>
+<span class="nc" id="L28">			trader.setAvailableBalance(fundAmount + trader.getAvailableBalance());</span>
+<span class="nc" id="L29">			traderRepository.save(trader);</span>
+<span class="nc" id="L30">		});</span>
+<span class="nc" id="L31">	}</span>
+
+	@Override
+	public TraderProfile addTrader(TraderProfile etrader) {
+<span class="nc" id="L35">		return traderRepository.save(etrader);</span>
+	}
+
+	private TraderProfile findTraderById(long traderId) throws Exception {
+<span class="nc" id="L39">		Optional&lt;TraderProfile&gt; eTrader = traderRepository.findById(traderId);</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">		if (eTrader.isPresent()) {</span>
+<span class="nc" id="L41">			return eTrader.get();</span>
+		} else {
+<span class="nc" id="L43">			throw new Exception(&quot;Trader not found&quot;);</span>
+		}
+	}
+
+	public void buyEquity(long traderId, int equityId) throws Exception {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">		if (echangeTimechk()) {</span>
+<span class="nc" id="L49">			Equity equity = equityService.getEquityById(equityId);</span>
+<span class="nc" id="L50">			TraderProfile trader = findTraderById(traderId);</span>
+
+<span class="nc" id="L52">			int tradingAvailableBalance = trader.getAvailableBalance();</span>
+<span class="nc" id="L53">			int holdingsAmt = equity.getEquitySellingPrice();</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">			if (tradingAvailableBalance &gt;= holdingsAmt) {</span>
+<span class="nc" id="L56">				List&lt;Equity&gt; holdings = trader.getEquities();</span>
+<span class="nc" id="L57">				holdings.add(equity);</span>
+<span class="nc" id="L58">				trader.setEquities(holdings);</span>
+<span class="nc" id="L59">				trader.setAvailableBalance(tradingAvailableBalance - holdingsAmt);</span>
+<span class="nc" id="L60">				traderRepository.save(trader);</span>
+
+<span class="nc" id="L62">				equity.setQuantityIssued(equity.getQuantityIssued() - 1);</span>
+<span class="nc" id="L63">				List&lt;TraderProfile&gt; traders = equity.getEtrader();</span>
+<span class="nc" id="L64">				traders.add(trader);</span>
+<span class="nc" id="L65">				equity.setEtrader(traders);</span>
+<span class="nc" id="L66">				equityService.addEquity(equity);</span>
+<span class="nc" id="L67">			} else {</span>
+<span class="nc" id="L68">				throw new Exception(&quot;Appropriate Funds are not available for this purchase!&quot;);</span>
+			}
+
+		} else {
+<span class="nc" id="L72">			throw new Exception(&quot;Exchange Time over !&quot;);</span>
+		}
+<span class="nc" id="L74">	}</span>
+
+	public void sellEquity(long traderId, int equityId) throws Exception {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">		if (echangeTimechk()) {</span>
+<span class="nc" id="L78">			TraderProfile trader = findTraderById(traderId);</span>
+<span class="nc" id="L79">			List&lt;Equity&gt; allTraderHoldings = trader.getEquities();</span>
+
+<span class="nc" id="L81">			allTraderHoldings.forEach(holding -&gt; {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">				if (holding.getEquityId() == equityId) {</span>
+<span class="nc" id="L83">					trader.setAvailableBalance(trader.getAvailableBalance() + holding.getEquitySellingPrice());</span>
+				}
+<span class="nc" id="L85">			});</span>
+<span class="nc" id="L86">		} else {</span>
+<span class="nc" id="L87">			throw new Exception(&quot;Exchange Time over !&quot;);</span>
+		}
+<span class="nc" id="L89">	}</span>
+
+	private static boolean echangeTimechk() {
+<span class="nc" id="L92">		return TradeExchangeTimeUtil.timeAndDayCheck();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

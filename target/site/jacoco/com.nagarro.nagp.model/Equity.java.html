@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Equity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ebrokerApplication</a> &gt; <a href="index.source.html" class="el_package">com.nagarro.nagp.model</a> &gt; <span class="el_source">Equity.java</span></div><h1>Equity.java</h1><pre class="source lang-java linenums">package com.nagarro.nagp.model;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import com.sun.istack.NotNull;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+<span class="fc" id="L19">@AllArgsConstructor</span>
+<span class="fc" id="L20">@NoArgsConstructor</span>
+@Entity
+@Table(name=&quot;equity&quot;)
+public class Equity {
+	
+	@Id 
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int equityId;
+	
+	@NotNull
+	private String equityName;
+	
+	@NotNull
+	private int equitySellingPrice;
+	
+	@NotNull
+	private int quantityIssued;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = &quot;etrader_equity&quot;)
+	private List&lt;TraderProfile&gt; etrader;
+
+	public int getEquityId() {
+<span class="fc" id="L43">		return equityId;</span>
+	}
+
+	public void setEquityId(int equityId) {
+<span class="fc" id="L47">		this.equityId = equityId;</span>
+<span class="fc" id="L48">	}</span>
+
+	public String getEquityName() {
+<span class="fc" id="L51">		return equityName;</span>
+	}
+
+	public void setEquityName(String equityName) {
+<span class="fc" id="L55">		this.equityName = equityName;</span>
+<span class="fc" id="L56">	}</span>
+
+	public int getEquitySellingPrice() {
+<span class="fc" id="L59">		return equitySellingPrice;</span>
+	}
+
+	public void setEquitySellingPrice(int equitySellingPrice) {
+<span class="fc" id="L63">		this.equitySellingPrice = equitySellingPrice;</span>
+<span class="fc" id="L64">	}</span>
+
+	public int getQuantityIssued() {
+<span class="fc" id="L67">		return quantityIssued;</span>
+	}
+
+	public void setQuantityIssued(int quantityIssued) {
+<span class="fc" id="L71">		this.quantityIssued = quantityIssued;</span>
+<span class="fc" id="L72">	}</span>
+
+	public List&lt;TraderProfile&gt; getEtrader() {
+<span class="fc" id="L75">		return etrader;</span>
+	}
+
+	public void setEtrader(List&lt;TraderProfile&gt; etrader) {
+<span class="fc" id="L79">		this.etrader = etrader;</span>
+<span class="fc" id="L80">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
