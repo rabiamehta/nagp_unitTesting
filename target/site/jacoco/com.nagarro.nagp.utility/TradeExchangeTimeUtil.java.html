@@ -11,15 +11,14 @@ public class TradeExchangeTimeUtil {
 	public static boolean timeAndDayCheck() {
 <span class="fc" id="L12">		LocalDate currentDate = LocalDate.now();</span>
 <span class="fc" id="L13">		LocalTime currentTime = LocalTime.now();</span>
-<span class="pc bpc" id="L14" title="1 of 2 branches missed.">		Boolean targetInZone = (currentTime.isAfter(LocalTime.parse(&quot;09:00:00&quot;))</span>
-<span class="pc bpc" id="L15" title="1 of 2 branches missed.">				&amp;&amp; currentTime.isBefore(LocalTime.parse(&quot;17:00:00&quot;)));</span>
-<span class="pc bpc" id="L16" title="3 of 4 branches missed.">		return isWeekday(currentDate) &amp;&amp; targetInZone;</span>
+<span class="pc bpc" id="L14" title="3 of 4 branches missed.">		return isWeekday(currentDate) &amp;&amp; (currentTime.isAfter(LocalTime.parse(&quot;09:00:00&quot;))</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">				&amp;&amp; currentTime.isBefore(LocalTime.parse(&quot;17:00:00&quot;)));</span>
 	}
 
 	public static boolean isWeekday(final LocalDate localDate) {
-<span class="fc" id="L20">		DayOfWeek currentDay = DayOfWeek.of(localDate.get(ChronoField.DAY_OF_WEEK));</span>
-<span class="pc bpc" id="L21" title="3 of 4 branches missed.">		boolean weekend = (currentDay == DayOfWeek.SATURDAY || currentDay == DayOfWeek.SUNDAY);</span>
-<span class="pc bpc" id="L22" title="1 of 2 branches missed.">		return !weekend;</span>
+<span class="fc" id="L19">		DayOfWeek currentDay = DayOfWeek.of(localDate.get(ChronoField.DAY_OF_WEEK));</span>
+<span class="pc bpc" id="L20" title="1 of 4 branches missed.">		boolean weekend = (currentDay == DayOfWeek.SATURDAY || currentDay == DayOfWeek.SUNDAY);</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">		return !weekend;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -17,6 +17,12 @@ public class TraderExchangeTimeUtilTest {
 			theMock.when(() -> TradeExchangeTimeUtil.isWeekday(LocalDate.of(2021, 12, 25))).thenReturn(false);
 			assertEquals(false, TradeExchangeTimeUtil.isWeekday(LocalDate.of(2021, 12, 25)));
 		}
+		
+		assertEquals(true, TradeExchangeTimeUtil.isWeekday(LocalDate.of(2021, 12, 24)));
+		try(MockedStatic<TradeExchangeTimeUtil> theMock = Mockito.mockStatic(TradeExchangeTimeUtil.class)) {
+			theMock.when(() -> TradeExchangeTimeUtil.isWeekday(LocalDate.of(2021, 12, 24))).thenReturn(true);
+			assertEquals(true, TradeExchangeTimeUtil.isWeekday(LocalDate.of(2021, 12, 24)));
+		}
 	}
 	
 	@Test

@@ -11,9 +11,8 @@ public class TradeExchangeTimeUtil {
 	public static boolean timeAndDayCheck() {
 		LocalDate currentDate = LocalDate.now();
 		LocalTime currentTime = LocalTime.now();
-		Boolean targetInZone = (currentTime.isAfter(LocalTime.parse("09:00:00"))
+		return isWeekday(currentDate) && (currentTime.isAfter(LocalTime.parse("09:00:00"))
 				&& currentTime.isBefore(LocalTime.parse("17:00:00")));
-		return isWeekday(currentDate) && targetInZone;
 	}
 
 	public static boolean isWeekday(final LocalDate localDate) {

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.nagarro.nagp.controller.EqutyControllerTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.37 s - in com.nagarro.nagp.controller.EqutyControllerTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.662 s - in com.nagarro.nagp.controller.EqutyControllerTest

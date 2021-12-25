@@ -35,17 +35,13 @@ public class TraderServiceImpl implements TraderService {
 		return traderRepository.save(etrader);
 	}
 
-	private TraderProfile findTraderById(long traderId) throws Exception {
+	public TraderProfile findTraderById(long traderId) throws Exception {
 		Optional<TraderProfile> eTrader = traderRepository.findById(traderId);
-		if (eTrader.isPresent()) {
-			return eTrader.get();
-		} else {
-			throw new Exception("Trader not found");
-		}
+		return (eTrader != null) ? eTrader.get() : null;
 	}
 
-	public void buyEquity(long traderId, int equityId) throws Exception {
-		if (echangeTimechk()) {
+	public TraderProfile buyEquity(long traderId, int equityId) throws Exception {
+		if (TradeExchangeTimeUtil.timeAndDayCheck()) {
 			Equity equity = equityService.getEquityById(equityId);
 			TraderProfile trader = findTraderById(traderId);
 
@@ -64,6 +60,7 @@ public class TraderServiceImpl implements TraderService {
 				traders.add(trader);
 				equity.setEtrader(traders);
 				equityService.addEquity(equity);
+				return trader;
 			} else {
 				throw new Exception("Appropriate Funds are not available for this purchase!");
 			}
@@ -74,7 +71,7 @@ public class TraderServiceImpl implements TraderService {
 	}
 
 	public void sellEquity(long traderId, int equityId) throws Exception {
-		if (echangeTimechk()) {
+		if (TradeExchangeTimeUtil.timeAndDayCheck()) {
 			TraderProfile trader = findTraderById(traderId);
 			List<Equity> allTraderHoldings = trader.getEquities();
 
@@ -86,10 +83,6 @@ public class TraderServiceImpl implements TraderService {
 		} else {
 			throw new Exception("Exchange Time over !");
 		}
-	}
-
-	private static boolean echangeTimechk() {
-		return TradeExchangeTimeUtil.timeAndDayCheck();
 	}
 
 }
