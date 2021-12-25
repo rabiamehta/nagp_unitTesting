@@ -1,6 +1,7 @@
 package com.nagarro.nagp.service.imp;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class EquityServiceImpl implements EquityService {
 
 	@Override
 	public Equity getEquityById(int equityId) throws Exception {
-		return equityRepository.findById(equityId).get();
+		Optional<Equity> equity = equityRepository.findById(equityId);
+		return (equity != null) ? equity.get() : null;
 	}
 }

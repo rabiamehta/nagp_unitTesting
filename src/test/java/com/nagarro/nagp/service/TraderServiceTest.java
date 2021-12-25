@@ -53,9 +53,9 @@ public class TraderServiceTest {
 
 	@Test
 	public void shouldBeAbleToAddFunds() {
-		long id = 1;
-		traderService.addFunds(id, 1000);
-		verify(traderRepository, times(1)).findById(id);
+		traderService.addFunds(1, 1000);
+
+		verify(traderRepository, times(1)).findById((long) 1);
 	}
 
 //	@Test
@@ -63,16 +63,20 @@ public class TraderServiceTest {
 //		try (MockedStatic<TradeExchangeTimeUtil> utilites = Mockito.mockStatic(TradeExchangeTimeUtil.class)) {
 //			utilites.when(TradeExchangeTimeUtil::timeAndDayCheck).thenReturn(true);
 //			
+//			Optional<Equity> eqOne = Optional.of(new Equity(4, "abc", 100, 10, null));
+//			Equity equity=eqOne.get();
+//			Mockito.when(equityService.getEquityById(4)).thenReturn(equity);
+//			
 //			TraderProfile trader = new TraderProfile(1, "Rabia", 120, null);
 //			Optional<TraderProfile> traderOptional = Optional.of(trader);
 //			Mockito.when(traderRepository.findById((long) 1)).thenReturn(traderOptional);
 //			
-//			Equity equity = new Equity(4, "abc", 100, 10, null);
-//	
+//			
 //			List<Equity> equities = new ArrayList<Equity>();
 //			equities.add(equity);
 //			TraderProfile expectedTrader = new TraderProfile(1, "Rabia", 120, equities);
 //			Mockito.when(traderRepository.save(trader)).thenReturn(expectedTrader);
+//			
 //			TraderProfile actualTrader = traderService.buyEquity(1, 4);
 //			assertEquals(expectedTrader, actualTrader);
 //			
@@ -80,24 +84,43 @@ public class TraderServiceTest {
 //	}
 
 	@Test
-	public void shouldBeAbleToFindTraderById() throws Exception {
-		Optional<TraderProfile> trader = Optional.of(new TraderProfile(1,"rabia",400,null));
-		when(traderRepository.findById((long) 1)).thenReturn(trader);
-    	
-    	// test
-    	Optional<TraderProfile> res = Optional.of(traderService.findTraderById(1));
-    	
-    	assertEquals(trader, res);
-    	assertNotNull(res);
+	public void shouldBeAbleToSellEquity() throws Exception {
+		try (MockedStatic<TradeExchangeTimeUtil> utilites = Mockito.mockStatic(TradeExchangeTimeUtil.class)) {
+			utilites.when(TradeExchangeTimeUtil::timeAndDayCheck).thenReturn(true);
+
+			Equity equity = new Equity(1, "abc", 300, 1, null);
+			List<Equity> equities = new ArrayList<Equity>();
+			equities.add(equity);
+
+			TraderProfile trader = new TraderProfile(1, "Rabia", 720, equities);
+			Optional<TraderProfile> traderOptional = Optional.of(trader);
+
+			Mockito.when(traderRepository.findById((long) 1)).thenReturn(traderOptional);
+
+			TraderProfile expectedTrader = new TraderProfile(1, "Rabia", 420, null);
+			Mockito.when(traderRepository.save(trader)).thenReturn(expectedTrader);
+
+			TraderProfile actualTrader = traderService.sellEquity(1, 1);
+			assertEquals(expectedTrader.getAvailableBalance(), actualTrader.getAvailableBalance());
+
+		}
 	}
-	
+
+	@Test
+	public void shouldBeAbleToFindTraderById() throws Exception {
+		Optional<TraderProfile> trader = Optional.of(new TraderProfile(1, "rabia", 400, null));
+		when(traderRepository.findById((long) 1)).thenReturn(trader);
+		// test
+		Optional<TraderProfile> res = Optional.of(traderService.findTraderById(1));
+		assertEquals(trader, res);
+		assertNotNull(res);
+	}
+
 	@Test
 	public void shouldNotBeAbleToFindTraderById() throws Exception {
 		when(traderRepository.findById(Mockito.anyLong())).thenReturn(null);
-    	
-    	// test
-    	TraderProfile res = traderService.findTraderById(Mockito.anyLong());
-    	
-    	assertNull(res);
+		// test
+		TraderProfile res = traderService.findTraderById(Mockito.anyLong());
+		assertNull(res);
 	}
 }

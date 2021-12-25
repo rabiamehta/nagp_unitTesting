@@ -70,16 +70,19 @@ public class TraderServiceImpl implements TraderService {
 		}
 	}
 
-	public void sellEquity(long traderId, int equityId) throws Exception {
+	public TraderProfile sellEquity(long traderId, int equityId) throws Exception {
 		if (TradeExchangeTimeUtil.timeAndDayCheck()) {
 			TraderProfile trader = findTraderById(traderId);
 			List<Equity> allTraderHoldings = trader.getEquities();
 
 			allTraderHoldings.forEach(holding -> {
 				if (holding.getEquityId() == equityId) {
-					trader.setAvailableBalance(trader.getAvailableBalance() + holding.getEquitySellingPrice());
+					trader.setAvailableBalance(trader.getAvailableBalance() - holding.getEquitySellingPrice());
 				}
 			});
+			
+			traderRepository.save(trader);
+			return trader;
 		} else {
 			throw new Exception("Exchange Time over !");
 		}
