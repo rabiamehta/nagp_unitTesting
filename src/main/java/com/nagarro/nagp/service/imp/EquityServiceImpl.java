@@ -29,10 +29,6 @@ public class EquityServiceImpl implements EquityService {
 	@Override
 	public Equity getEquityById(int equityId) throws Exception {
 		Optional<Equity> equity = equityRepository.findById(equityId);
-		if (equity.isPresent()) {
-			return equity.get();
-		} else {
-			throw new Exception("Equity not found");
-		}
+		return equity.get();
 	}
 }

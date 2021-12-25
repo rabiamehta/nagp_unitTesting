@@ -2,7 +2,7 @@ GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_
 ebrokerApplication,com.nagarro.nagp.model,Equity,0,56,0,0,0,17,0,12,0,12
 ebrokerApplication,com.nagarro.nagp.model,TraderProfile,0,46,0,0,0,14,0,10,0,10
 ebrokerApplication,com.nagarro.nagp.service.imp,TraderServiceImpl,154,3,10,0,41,1,13,1,8,1
-ebrokerApplication,com.nagarro.nagp.service.imp,EquityServiceImpl,5,26,1,1,1,6,1,4,0,4
+ebrokerApplication,com.nagarro.nagp.service.imp,EquityServiceImpl,0,23,0,0,0,5,0,4,0,4
 ebrokerApplication,com.nagarro.nagp.utility,TradeExchangeTimeUtil,50,0,14,0,8,0,9,0,2,0
 ebrokerApplication,com.nagarro.nagp,EbrokerApplication,5,3,0,0,2,1,1,1,1,1
 ebrokerApplication,com.nagarro.nagp.controller,EquityController,0,17,0,0,0,4,0,4,0,4
