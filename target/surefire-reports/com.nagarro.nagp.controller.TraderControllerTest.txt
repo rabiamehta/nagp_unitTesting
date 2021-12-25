@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.nagarro.nagp.controller.TraderControllerTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.838 s - in com.nagarro.nagp.controller.TraderControllerTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.176 s - in com.nagarro.nagp.controller.TraderControllerTest

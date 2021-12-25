@@ -1,0 +1,8 @@
+com\nagarro\nagp\EbrokerApplicationTests.class
+com\nagarro\nagp\service\EquityServiceTest.class
+com\nagarro\nagp\service\TraderServiceTest.class
+com\nagarro\nagp\utility\TraderExchangeTimeUtilTest.class
+com\nagarro\nagp\repository\TraderRepositoryTest.class
+com\nagarro\nagp\controller\TraderControllerTest.class
+com\nagarro\nagp\repository\EquityRepositoryTest.class
+com\nagarro\nagp\controller\EqutyControllerTest.class

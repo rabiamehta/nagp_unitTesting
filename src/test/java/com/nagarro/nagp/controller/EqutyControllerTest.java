@@ -46,7 +46,6 @@ public class EqutyControllerTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	@Disabled
 	@Test
 	public void shouldGetAllEquitiesList() throws Exception {
 		Equity equity = new Equity(1, "testEquity", 600, 10, null);
@@ -84,11 +83,9 @@ public class EqutyControllerTest {
 		Equity equity = new Equity(1, "testEquity", 600, 10, null);
 		Mockito.when(equityService.addEquity(equity)).thenReturn(equity);
 		Assertions.assertNotNull(equityController.addEquity(equity));
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/equity")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(asJsonString(equity))).andExpect(status().isOk())
-		;
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/equity").contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(equity))).andExpect(status().isOk());
 	}
 
 	public static String asJsonString(final Object obj) {

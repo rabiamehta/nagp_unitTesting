@@ -24,15 +24,15 @@ import com.nagarro.nagp.utility.TradeExchangeTimeUtil;
 
 	@Override
 	public void addFunds(long traderId, int fundAmount) {
-<span class="nc" id="L27">		traderRepository.findById(traderId).ifPresent((trader) -&gt; {</span>
+<span class="fc" id="L27">		traderRepository.findById(traderId).ifPresent((trader) -&gt; {</span>
 <span class="nc" id="L28">			trader.setAvailableBalance(fundAmount + trader.getAvailableBalance());</span>
 <span class="nc" id="L29">			traderRepository.save(trader);</span>
 <span class="nc" id="L30">		});</span>
-<span class="nc" id="L31">	}</span>
+<span class="fc" id="L31">	}</span>
 
 	@Override
 	public TraderProfile addTrader(TraderProfile etrader) {
-<span class="nc" id="L35">		return traderRepository.save(etrader);</span>
+<span class="fc" id="L35">		return traderRepository.save(etrader);</span>
 	}
 
 	private TraderProfile findTraderById(long traderId) throws Exception {
@@ -68,7 +68,7 @@ import com.nagarro.nagp.utility.TradeExchangeTimeUtil;
 <span class="nc" id="L68">				throw new Exception(&quot;Appropriate Funds are not available for this purchase!&quot;);</span>
 			}
 
-		} else {
+<span class="nc" id="L71">		} else {</span>
 <span class="nc" id="L72">			throw new Exception(&quot;Exchange Time over !&quot;);</span>
 		}
 <span class="nc" id="L74">	}</span>
